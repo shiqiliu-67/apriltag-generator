@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# AprilTag Generator
+
+A simple, easy-to-use AprilTag generator that creates multiple tags in a single PDF file. Ideal for object detection, pose estimation, and camera calibration.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
