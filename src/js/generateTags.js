@@ -23,7 +23,7 @@ const TAG_CONFIG = {
     tag_window_pixels: 5,
     tag_pixels: 9,
     tag_prefix: "tag21_07",
-    tag_id_max: 15,
+    tag_id_max: 37,
   },
   tagCircle49h12: {
     tag_window_pixels: 5,
