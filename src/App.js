@@ -82,7 +82,7 @@ const App = () => {
     }));
   };
 
-  const handleDownload = () => {
+  const handleGenerate = () => {
     const config = {
       tagFamily: inputs.tagFamily,
       tagIds: parseNumberList(inputs.tagIds),
@@ -99,6 +99,7 @@ const App = () => {
       pageWidth: inputs.pageWidth,
       pageHeight: inputs.pageHeight,
     };
+
     setFreeze(true);
     generateTags(config, setPdfUrl, setFreeze);
     // const pdfBlob = pdf.output("blob");
@@ -107,6 +108,22 @@ const App = () => {
     // const url = URL.createObjectURL(pdfBlob);
     // console.log(url);
     // setPdfUrl(url);
+  };
+
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = pdfUrl;
+    // Set the download name for the PDF
+    link.download = `${inputs.tagFamily}_${inputs.tagIds.replace(
+      /[^0-9,-]/g,
+      ""
+    )}.pdf`;
+    // Append to the body
+    document.body.appendChild(link);
+    // Trigger click
+    link.click();
+    // Remove the link when done
+    document.body.removeChild(link);
   };
 
   return (
@@ -274,16 +291,33 @@ const App = () => {
         <span style={{ fontWeight: "bold" }}>None</span> to ensure tags are in
         the right size.
       </Typography>
-      <Button
-        disabled={freeze}
-        variant="contained"
-        color="primary"
-        onClick={handleDownload}
-        fullWidth
-        style={{ marginTop: 5, marginLeft: 0 }}
-      >
-        Generate
-      </Button>
+      <Typography variant="body2">
+        Try switching to a different browser if the generated tags look blur.
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <Button
+            disabled={freeze}
+            variant="contained"
+            color="primary"
+            onClick={handleGenerate}
+            fullWidth
+          >
+            Generate
+          </Button>
+        </Grid>
+        <Grid item xs={6}>
+          <Button
+            disabled={freeze || !pdfUrl}
+            variant="contained"
+            color="secondary"
+            onClick={handleDownload}
+            fullWidth
+          >
+            Download
+          </Button>
+        </Grid>
+      </Grid>
 
       {pdfUrl && (
         <iframe
