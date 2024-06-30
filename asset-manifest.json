@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/apriltag-generator/static/css/main.e6c13ad2.css",
-    "main.js": "/apriltag-generator/static/js/main.734081c2.js",
+    "main.js": "/apriltag-generator/static/js/main.523cd1ed.js",
     "static/js/239.5985acae.chunk.js": "/apriltag-generator/static/js/239.5985acae.chunk.js",
     "static/js/213.efa9989e.chunk.js": "/apriltag-generator/static/js/213.efa9989e.chunk.js",
     "static/js/732.0a6eaf8a.chunk.js": "/apriltag-generator/static/js/732.0a6eaf8a.chunk.js",
     "static/js/453.3b53acbb.chunk.js": "/apriltag-generator/static/js/453.3b53acbb.chunk.js",
     "index.html": "/apriltag-generator/index.html",
     "main.e6c13ad2.css.map": "/apriltag-generator/static/css/main.e6c13ad2.css.map",
-    "main.734081c2.js.map": "/apriltag-generator/static/js/main.734081c2.js.map",
+    "main.523cd1ed.js.map": "/apriltag-generator/static/js/main.523cd1ed.js.map",
     "239.5985acae.chunk.js.map": "/apriltag-generator/static/js/239.5985acae.chunk.js.map",
     "213.efa9989e.chunk.js.map": "/apriltag-generator/static/js/213.efa9989e.chunk.js.map",
     "732.0a6eaf8a.chunk.js.map": "/apriltag-generator/static/js/732.0a6eaf8a.chunk.js.map",
@@ -16,6 +16,6 @@
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.734081c2.js"
+    "static/js/main.523cd1ed.js"
   ]
 }
