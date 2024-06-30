@@ -338,7 +338,7 @@ const App = () => {
             onClick={handleDownloadCoordinates}
             fullWidth
           >
-            Download tag coordinated
+            Download tag coordinates
           </Button>
         </Grid>
       </Grid>
