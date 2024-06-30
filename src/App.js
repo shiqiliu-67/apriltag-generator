@@ -224,14 +224,14 @@ const App = () => {
           />
         </Grid>
         <Grid item xs={6}>
-          <TextField
+          {/* <TextField
             label="DPI"
             name="dpi"
             type="number"
             value={inputs.dpi}
             onChange={handleChange}
             fullWidth
-          />
+          /> */}
         </Grid>
         <Grid item xs={6}>
           <TextField

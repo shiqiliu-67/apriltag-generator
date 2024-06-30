@@ -76,7 +76,7 @@ export async function generateTags(config, setPdfUrl, setTagJson, setFreeze) {
   const tagWindowSize = config["tagWindowSize"];
   const tagMargin = config["tagMargin"];
   const tagPadding = config["tagPadding"];
-  const dpi = config["dpi"];
+  // const dpi = config["dpi"];
   const maxCol = config["maxCol"];
   const maxRow = config["maxRow"];
   const useBorder = config["useBorder"];
