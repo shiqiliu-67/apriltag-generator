@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Container,
   TextField,
@@ -10,6 +10,7 @@ import {
   MenuItem,
   FormControl,
   Select,
+  Typography,
 } from "@mui/material";
 import { generateTags } from "./js/generateTags.js";
 // import { PdfViewer } from "./components/PdfViewer.jsx";
@@ -267,20 +268,23 @@ const App = () => {
           />
         </Grid>
       </Grid>
+      <Typography variant="body2" style={{ marginTop: 30, marginLeft: 0 }}>
+        In printer setup, set the{" "}
+        <span style={{ fontWeight: "bold" }}>Page Scaling</span> to{" "}
+        <span style={{ fontWeight: "bold" }}>None</span> to ensure tags are in
+        the right size.
+      </Typography>
       <Button
         disabled={freeze}
         variant="contained"
         color="primary"
         onClick={handleDownload}
         fullWidth
-        style={{ marginTop: 20, marginLeft: 0 }}
+        style={{ marginTop: 5, marginLeft: 0 }}
       >
         Generate
       </Button>
-      {/* <PreviewContainer>
-        {previewSrc && <img src={previewSrc} alt="AprilTag Preview" />}
-      </PreviewContainer> */}
-      {/* <PdfViewer pdf={previewSrc} /> */}
+
       {pdfUrl && (
         <iframe
           src={pdfUrl}

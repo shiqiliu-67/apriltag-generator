@@ -55,14 +55,14 @@ function inchToMillimeters(value) {
   return 25.4 * value;
 }
 
-function drawOnCanvasCenter(img, canvas, imgWidth, imgHeight, xShift, yShift) {
-  const ctx = canvas.getContext("2d");
-  // Calculate center coordinates
-  const centerX = canvas.width / 2 - imgWidth / 2 + xShift;
-  const centerY = canvas.height / 2 - imgHeight / 2 + yShift;
-  // Draw the image at the center coordinates
-  ctx.drawImage(img, centerX, centerY, imgWidth, imgHeight);
-}
+// function drawOnCanvasCenter(img, canvas, imgWidth, imgHeight, xShift, yShift) {
+//   const ctx = canvas.getContext("2d");
+//   // Calculate center coordinates
+//   const centerX = canvas.width / 2 - imgWidth / 2 + xShift;
+//   const centerY = canvas.height / 2 - imgHeight / 2 + yShift;
+//   // Draw the image at the center coordinates
+//   ctx.drawImage(img, centerX, centerY, imgWidth, imgHeight);
+// }
 
 // Function to draw a bounding box
 // function drawBoundingBoxOnPDF(doc, x, y, width, height) {
@@ -189,7 +189,13 @@ export async function generateTags(config, setPdfUrl, setFreeze) {
 
       // Load tag image using Image object
       const tagFilename = `${tagPrefix}_${String(tagId).padStart(5, "0")}.png`;
-      const tagPath = `${process.env.PUBLIC_URL}/apriltag_imgs/${tagFamily}/${tagFilename}`;
+      let tagPath;
+      if (["tag16h5", "tag25h9", "tag36h11"].includes(tagFamily)) {
+        tagPath = `${process.env.PUBLIC_URL}/apriltag_imgs/${tagFamily}/${tagFilename}`;
+      } else {
+        tagPath = `https://raw.githubusercontent.com/AprilRobotics/apriltag-imgs/master/${tagFamily}/${tagFilename}`;
+      }
+
       const tagImg = new Image();
       tagImg.src = tagPath;
       console.log(tagImg.src);
