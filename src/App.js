@@ -13,12 +13,6 @@ import {
   Typography,
 } from "@mui/material";
 import { generateTags } from "./js/generateTags.js";
-// import { PdfViewer } from "./components/PdfViewer.jsx";
-
-// const PreviewContainer = styled("div")({
-//   marginTop: 20,
-//   textAlign: "center",
-// });
 
 function parseNumberList(str) {
   // Remove non-numeric characters (excluding commas and dashes for ranges)
@@ -73,6 +67,7 @@ const App = () => {
 
   const [freeze, setFreeze] = useState(false);
   const [pdfUrl, setPdfUrl] = useState("");
+  const [tagJson, setTagJson] = useState("");
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -101,7 +96,7 @@ const App = () => {
     };
 
     setFreeze(true);
-    generateTags(config, setPdfUrl, setFreeze);
+    generateTags(config, setPdfUrl, setTagJson, setFreeze);
     // const pdfBlob = pdf.output("blob");
 
     // Create a URL from the Blob and set it to the state
@@ -118,6 +113,24 @@ const App = () => {
       /[^0-9,-]/g,
       ""
     )}.pdf`;
+    // Append to the body
+    document.body.appendChild(link);
+    // Trigger click
+    link.click();
+    // Remove the link when done
+    document.body.removeChild(link);
+  };
+
+  const handleDownloadCoordinates = () => {
+    const dataUrl =
+      "data:text/json;charset=utf-8," + encodeURIComponent(tagJson);
+    const link = document.createElement("a");
+    link.href = dataUrl;
+    // Set the download name for the PDF
+    link.download = `Coordinates_${inputs.tagFamily}_${inputs.tagIds.replace(
+      /[^0-9,-]/g,
+      ""
+    )}.json`;
     // Append to the body
     document.body.appendChild(link);
     // Trigger click
@@ -294,8 +307,8 @@ const App = () => {
       <Typography variant="body2">
         Try switching to a different browser if the generated tags look blur.
       </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
+      <Grid container spacing={2} style={{ marginTop: "-10px" }}>
+        <Grid item xs={4}>
           <Button
             disabled={freeze}
             variant="contained"
@@ -306,15 +319,26 @@ const App = () => {
             Generate
           </Button>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
+          <Button
+            disabled={freeze || !pdfUrl}
+            variant="contained"
+            color="success"
+            onClick={handleDownload}
+            fullWidth
+          >
+            Download PDF
+          </Button>
+        </Grid>
+        <Grid item xs={4}>
           <Button
             disabled={freeze || !pdfUrl}
             variant="contained"
             color="secondary"
-            onClick={handleDownload}
+            onClick={handleDownloadCoordinates}
             fullWidth
           >
-            Download
+            Download tag coordinated
           </Button>
         </Grid>
       </Grid>
