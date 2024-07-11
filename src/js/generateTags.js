@@ -196,6 +196,7 @@ export async function generateTags(config, setPdfUrl, setTagJson, setFreeze) {
           [xShift + s / 2, -yShift - s / 2],
           [xShift - s / 2, -yShift - s / 2],
         ],
+        unit: "mm",
       });
 
       // Add border of the tag if required

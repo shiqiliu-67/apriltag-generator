@@ -349,7 +349,8 @@ const App = () => {
           title="PDF Preview"
           style={{
             width: "100%",
-            height: "150vh",
+            // maxHeight: "100vh",
+            aspectRatio: "0.85",
             marginTop: "20px",
             border: "1px solid #ccc",
           }}
