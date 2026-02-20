@@ -80,7 +80,11 @@ export async function generateTags(config, setPdfUrl, setTagJson, setFreeze) {
   const maxCol = config["maxCol"];
   const maxRow = config["maxRow"];
   const useBorder = config["useBorder"];
+  const borderWidth = config["borderWidth"];
+  const borderColor = config["borderColor"];
   const drawTagId = config["drawTagId"];
+  const textColor = config["textColor"];
+  const tagIdFormat = config["tagIdFormat"];
   const textHeight = config["textHeight"];
   const textMarginTop = config["textMarginTop"];
   const pageWidthInch = config["pageWidth"];
@@ -201,6 +205,8 @@ export async function generateTags(config, setPdfUrl, setTagJson, setFreeze) {
 
       // Add border of the tag if required
       if (useBorder) {
+        pdf.setDrawColor(borderColor);
+        pdf.setLineWidth(borderWidth);
         if (tagFamily.includes("Circle")) {
           // Draw a Circle around the tag
           const borderSize = tagFullSize - tagMargin * 2;
@@ -219,9 +225,11 @@ export async function generateTags(config, setPdfUrl, setTagJson, setFreeze) {
       // Draw tag id
       if (drawTagId) {
         const borderSize = tagSize;
-        const textString = `${tagFamily} [${tagId}]`;
+        const textString = tagIdFormat
+          .replace("{id}", tagId)
+          .replace("{family}", tagFamily);
         pdf.setFontSize(1.0);
-        pdf.setTextColor("#A9A9A9"); // Dark gray
+        pdf.setTextColor(textColor);
         const stringHeight = pdf.getTextDimensions(textString).h;
         const fontSize = textHeight / stringHeight;
 
