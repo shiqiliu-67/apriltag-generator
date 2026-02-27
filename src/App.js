@@ -60,7 +60,12 @@ const App = () => {
     maxCol: 20,
     maxRow: 20,
     useBorder: true,
+    borderWidth: 0.1,
+    borderColor: "#000000",
     drawTagId: true,
+    textColor: "#A9A9A9",
+    tagIdFormat: "{family} [{id}]",
+    pagePreset: "letter",
     pageWidth: 8.5,
     pageHeight: 11,
   });
@@ -71,10 +76,25 @@ const App = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setInputs((prev) => ({
-      ...prev,
+    const newInputs = {
+      ...inputs,
       [name]: type === "checkbox" ? checked : value,
-    }));
+    };
+
+    if (name === "pagePreset") {
+      const presets = {
+        letter: { width: 8.5, height: 11 },
+        a4: { width: 8.27, height: 11.69 },
+        a3: { width: 11.69, height: 16.54 },
+      };
+      const preset = presets[value];
+      if (preset) {
+        newInputs.pageWidth = preset.width;
+        newInputs.pageHeight = preset.height;
+      }
+    }
+
+    setInputs(newInputs);
   };
 
   const handleGenerate = () => {
@@ -90,7 +110,11 @@ const App = () => {
       maxCol: inputs.maxCol,
       maxRow: inputs.maxRow,
       useBorder: inputs.useBorder,
+      borderWidth: inputs.borderWidth,
+      borderColor: inputs.borderColor,
       drawTagId: inputs.drawTagId,
+      textColor: inputs.textColor,
+      tagIdFormat: inputs.tagIdFormat,
       pageWidth: inputs.pageWidth,
       pageHeight: inputs.pageHeight,
     };
@@ -145,7 +169,7 @@ const App = () => {
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+            <InputLabel id="demo-simple-select-label">Tag Family</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               name="tagFamily"
@@ -172,6 +196,11 @@ const App = () => {
             onChange={handleChange}
             fullWidth
           />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h6" style={{ marginBottom: "10px", marginTop: "10px" }}>
+            Tag Size
+          </Typography>
         </Grid>
         <Grid item xs={6}>
           <TextField
@@ -204,26 +233,6 @@ const App = () => {
           />
         </Grid>
         <Grid item xs={6}>
-          <TextField
-            label="Tag Text Height (cm)"
-            name="textHeight"
-            type="number"
-            value={inputs.textHeight}
-            onChange={handleChange}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            label="Tag Text Margin Top (cm)"
-            name="textMarginTop"
-            type="number"
-            value={inputs.textMarginTop}
-            onChange={handleChange}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={6}>
           {/* <TextField
             label="DPI"
             name="dpi"
@@ -233,26 +242,29 @@ const App = () => {
             fullWidth
           /> */}
         </Grid>
-        <Grid item xs={6}>
-          <TextField
-            label="Max Columns"
-            name="maxCol"
-            type="number"
-            value={inputs.maxCol}
-            onChange={handleChange}
-            fullWidth
-          />
+
+        <Grid item xs={12}>
+          <Typography variant="h6" style={{ marginBottom: "10px", marginTop: "10px" }}>
+            Page Layout
+          </Typography>
         </Grid>
         <Grid item xs={6}>
-          <TextField
-            label="Max Rows"
-            name="maxRow"
-            type="number"
-            value={inputs.maxRow}
-            onChange={handleChange}
-            fullWidth
-          />
+          <FormControl fullWidth>
+            <InputLabel id="page-preset-label">Page Preset</InputLabel>
+            <Select
+              labelId="page-preset-label"
+              name="pagePreset"
+              value={inputs.pagePreset}
+              label="Page Preset"
+              onChange={handleChange}
+            >
+              <MenuItem value="letter">Letter (8.5" x 11")</MenuItem>
+              <MenuItem value="a4">A4 (8.27" x 11.69")</MenuItem>
+              <MenuItem value="a3">A3 (11.69" x 16.54")</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
+        <Grid item xs={6}></Grid>
         <Grid item xs={6}>
           <TextField
             label="Page Width (Inch)"
@@ -274,18 +286,27 @@ const App = () => {
           />
         </Grid>
         <Grid item xs={6}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="drawTagId"
-                checked={inputs.drawTagId}
-                onChange={handleChange}
-              />
-            }
-            label="Add Tag ID"
+          <TextField
+            label="Max Columns"
+            name="maxCol"
+            type="number"
+            value={inputs.maxCol}
+            onChange={handleChange}
+            fullWidth
           />
         </Grid>
         <Grid item xs={6}>
+          <TextField
+            label="Max Rows"
+            name="maxRow"
+            type="number"
+            value={inputs.maxRow}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={12}>
           <FormControlLabel
             control={
               <Checkbox
@@ -294,9 +315,89 @@ const App = () => {
                 onChange={handleChange}
               />
             }
-            label="Add Border"
+            label={<Typography variant="h6">Add Border</Typography>}
           />
         </Grid>
+        {inputs.useBorder && (
+          <>
+            <Grid item xs={6}>
+              <TextField
+                label="Border Width (cm)"
+                name="borderWidth"
+                type="number"
+                value={inputs.borderWidth}
+                onChange={handleChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Border Color"
+                name="borderColor"
+                type="color"
+                value={inputs.borderColor}
+                onChange={handleChange}
+                fullWidth
+              />
+            </Grid>
+          </>
+        )}
+
+        <Grid item xs={12}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="drawTagId"
+                checked={inputs.drawTagId}
+                onChange={handleChange}
+              />
+            }
+            label={<Typography variant="h6">Add Tag ID</Typography>}
+          />
+        </Grid>
+        {inputs.drawTagId && (
+          <>
+            <Grid item xs={6}>
+              <TextField
+                label="Tag ID Format (Use {id} and {family} as placeholders)"
+                name="tagIdFormat"
+                value={inputs.tagIdFormat}
+                onChange={handleChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Text Color"
+                name="textColor"
+                type="color"
+                value={inputs.textColor}
+                onChange={handleChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Tag Text Height (cm)"
+                name="textHeight"
+                type="number"
+                value={inputs.textHeight}
+                onChange={handleChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Tag Text Margin Top (cm)"
+                name="textMarginTop"
+                type="number"
+                value={inputs.textMarginTop}
+                onChange={handleChange}
+                fullWidth
+              />
+            </Grid>
+          </>
+        )}
       </Grid>
       <Typography variant="body2" style={{ marginTop: 30, marginLeft: 0 }}>
         In printer setup, set the{" "}
