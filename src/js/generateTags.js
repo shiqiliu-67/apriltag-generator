@@ -71,7 +71,7 @@ export async function generateTags(config, setPdfUrl, setTagJson, setFreeze) {
 
   const tagFamily = config["tagFamily"];
   const tagIds = config["tagIds"].filter(
-    (num) => num >= 0 && num <= TAG_CONFIG[tagFamily].tag_id_max
+    (num) => num >= 0 && num <= TAG_CONFIG[tagFamily].tag_id_max,
   );
   const tagWindowSize = config["tagWindowSize"];
   const tagMargin = config["tagMargin"];
@@ -167,7 +167,7 @@ export async function generateTags(config, setPdfUrl, setTagJson, setFreeze) {
       const tagFilename = `${tagPrefix}_${String(tagId).padStart(5, "0")}.png`;
       let tagPath;
       if (["tag16h5", "tag25h9", "tag36h11"].includes(tagFamily)) {
-        tagPath = `${process.env.PUBLIC_URL}/apriltag_imgs/${tagFamily}/${tagFilename}`;
+        tagPath = `${import.meta.env.BASE_URL}apriltag_imgs/${tagFamily}/${tagFilename}`;
       } else {
         tagPath = `https://raw.githubusercontent.com/AprilRobotics/apriltag-imgs/master/${tagFamily}/${tagFilename}`;
       }

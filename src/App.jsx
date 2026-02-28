@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Box,
   Container,
   TextField,
   Button,
@@ -93,6 +94,9 @@ const App = () => {
         newInputs.pageHeight = preset.height;
       }
     }
+    else if (name === "pageWidth" || name === "pageHeight") {
+      newInputs.pagePreset = "custom";
+    }
 
     setInputs(newInputs);
   };
@@ -133,10 +137,11 @@ const App = () => {
     const link = document.createElement("a");
     link.href = pdfUrl;
     // Set the download name for the PDF
-    link.download = `${inputs.tagFamily}_${inputs.tagIds.replace(
-      /[^0-9,-]/g,
-      ""
-    )}.pdf`;
+    // link.download = `${inputs.tagFamily}_${inputs.tagIds.replace(
+    //   /[^0-9,-]/g,
+    //   ""
+    // )}.pdf`;
+    link.download = `${inputs.tagFamily}_${inputs.tagIds.replace(/[^0-9,-]/g, "")}.pdf`;
     // Append to the body
     document.body.appendChild(link);
     // Trigger click
@@ -164,10 +169,12 @@ const App = () => {
   };
 
   return (
-    <Container>
-      <h1>AprilTag Generator</h1>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
+    <Container maxWidth="md" style={{ marginBottom: "100px", marginTop: "50px" }}>
+      <Typography variant="h4" align="center" gutterBottom>
+        AprilTag Generator
+      </Typography>
+      <Grid container spacing={2} style={{ marginTop: 30 }}>
+        <Grid size={6}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Tag Family</InputLabel>
             <Select
@@ -188,7 +195,7 @@ const App = () => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <TextField
             label="Tag IDs (comma separated)"
             name="tagIds"
@@ -197,12 +204,12 @@ const App = () => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="h6" style={{ marginBottom: "10px", marginTop: "10px" }}>
             Tag Size
           </Typography>
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <TextField
             label="Tag Window Size (cm)"
             name="tagWindowSize"
@@ -212,7 +219,7 @@ const App = () => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <TextField
             label="Tag Margin (cm)"
             name="tagMargin"
@@ -222,7 +229,7 @@ const App = () => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <TextField
             label="Tag Padding (cm)"
             name="tagPadding"
@@ -232,7 +239,7 @@ const App = () => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={6}>
           {/* <TextField
             label="DPI"
             name="dpi"
@@ -243,12 +250,12 @@ const App = () => {
           /> */}
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="h6" style={{ marginBottom: "10px", marginTop: "10px" }}>
             Page Layout
           </Typography>
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <FormControl fullWidth>
             <InputLabel id="page-preset-label">Page Preset</InputLabel>
             <Select
@@ -261,11 +268,12 @@ const App = () => {
               <MenuItem value="letter">Letter (8.5" x 11")</MenuItem>
               <MenuItem value="a4">A4 (8.27" x 11.69")</MenuItem>
               <MenuItem value="a3">A3 (11.69" x 16.54")</MenuItem>
+              <MenuItem value="custom">Custom</MenuItem>
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={6}></Grid>
-        <Grid item xs={6}>
+        <Grid size={6}></Grid>
+        <Grid size={6}>
           <TextField
             label="Page Width (Inch)"
             name="pageWidth"
@@ -275,7 +283,7 @@ const App = () => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <TextField
             label="Page Height (Inch)"
             name="pageHeight"
@@ -285,7 +293,7 @@ const App = () => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <TextField
             label="Max Columns"
             name="maxCol"
@@ -295,7 +303,7 @@ const App = () => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <TextField
             label="Max Rows"
             name="maxRow"
@@ -306,7 +314,7 @@ const App = () => {
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControlLabel
             control={
               <Checkbox
@@ -320,7 +328,7 @@ const App = () => {
         </Grid>
         {inputs.useBorder && (
           <>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <TextField
                 label="Border Width (cm)"
                 name="borderWidth"
@@ -330,7 +338,7 @@ const App = () => {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <TextField
                 label="Border Color"
                 name="borderColor"
@@ -343,7 +351,7 @@ const App = () => {
           </>
         )}
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControlLabel
             control={
               <Checkbox
@@ -357,7 +365,7 @@ const App = () => {
         </Grid>
         {inputs.drawTagId && (
           <>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <TextField
                 label="Tag ID Format (Use {id} and {family} as placeholders)"
                 name="tagIdFormat"
@@ -366,7 +374,7 @@ const App = () => {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <TextField
                 label="Text Color"
                 name="textColor"
@@ -376,7 +384,7 @@ const App = () => {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <TextField
                 label="Tag Text Height (cm)"
                 name="textHeight"
@@ -386,7 +394,7 @@ const App = () => {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <TextField
                 label="Tag Text Margin Top (cm)"
                 name="textMarginTop"
@@ -408,8 +416,8 @@ const App = () => {
       <Typography variant="body2">
         Try switching to a different browser if the generated tags look blur.
       </Typography>
-      <Grid container spacing={2} style={{ marginTop: "-10px" }}>
-        <Grid item xs={4}>
+      <Grid container spacing={2} style={{ marginTop: "10px" }}>
+        <Grid size={4}>
           <Button
             disabled={freeze}
             variant="contained"
@@ -420,7 +428,7 @@ const App = () => {
             Generate
           </Button>
         </Grid>
-        <Grid item xs={4}>
+        <Grid size={4}>
           <Button
             disabled={freeze || !pdfUrl}
             variant="contained"
@@ -431,7 +439,7 @@ const App = () => {
             Download PDF
           </Button>
         </Grid>
-        <Grid item xs={4}>
+        <Grid size={4}>
           <Button
             disabled={freeze || !pdfUrl}
             variant="contained"
@@ -457,6 +465,7 @@ const App = () => {
           }}
         ></iframe>
       )}
+
     </Container>
   );
 };
