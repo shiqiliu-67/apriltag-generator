@@ -170,12 +170,17 @@ export async function generateTags(config, setPdfUrl, setTagJson, setFreeze) {
         tagPath = `${import.meta.env.BASE_URL}apriltag_imgs/${tagFamily}/${tagFilename}`;
       } else {
         tagPath = `https://raw.githubusercontent.com/AprilRobotics/apriltag-imgs/master/${tagFamily}/${tagFilename}`;
+        console.log(tagPath);
       }
+
       const tagImg = new Image();
+      // This line tells the browser to request CORS access
+      tagImg.crossOrigin = "anonymous"; // must be BEFORE tagImg.src
       tagImg.src = tagPath;
 
-      await new Promise((resolve) => {
+      await new Promise((resolve, reject) => {
         tagImg.onload = resolve;
+        tagImg.onerror = reject; // Good practice to handle load failures!
       });
 
       // --- MINIMAL EFFORT FIX STARTS HERE ---
