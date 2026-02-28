@@ -1,3 +1,7 @@
+# AprilTag Generator
+
+A simple, easy-to-use AprilTag generator that creates multiple tags in a single PDF file. Ideal for object detection, pose estimation, and camera calibration.
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

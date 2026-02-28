@@ -173,12 +173,33 @@ export async function generateTags(config, setPdfUrl, setTagJson, setFreeze) {
       }
       const tagImg = new Image();
       tagImg.src = tagPath;
-      console.log(tagImg.src);
+
       await new Promise((resolve) => {
         tagImg.onload = resolve;
       });
 
-      // Get center of each tag on the page
+      // --- MINIMAL EFFORT FIX STARTS HERE ---
+      const upscaleCanvas = document.createElement("canvas");
+      const upscaleCtx = upscaleCanvas.getContext("2d");
+
+      // We upscale to a size large enough that PDF viewers won't blur it (e.g., 512px)
+      const upscaleSize = 512;
+      upscaleCanvas.width = upscaleSize;
+      upscaleCanvas.height = upscaleSize;
+
+      // This is the magic line that prevents blurring
+      upscaleCtx.imageSmoothingEnabled = false;
+      upscaleCtx.webkitImageSmoothingEnabled = false;
+      upscaleCtx.mozImageSmoothingEnabled = false;
+
+      // Draw the tiny tag onto the large canvas
+      upscaleCtx.drawImage(tagImg, 0, 0, upscaleSize, upscaleSize);
+
+      // Get the sharp, high-res data URL
+      const sharpTagData = upscaleCanvas.toDataURL("image/png");
+      // --- MINIMAL EFFORT FIX ENDS HERE ---
+
+      // Get center of each tag on the page (Your existing logic)
       const pageCenterX = pageWidth / 2;
       const pageCenterY = pageHeight / 2;
       const xShift = (currentCol - (nCol - 1) / 2) * tagFullSize;
@@ -186,19 +207,21 @@ export async function generateTags(config, setPdfUrl, setTagJson, setFreeze) {
       const s = tagSize;
       const x = pageCenterX + xShift - s / 2;
       const y = pageCenterY + yShift - s / 2;
-      pdf.addImage(tagImg, x, y, s, s);
+
+      // Use sharpTagData instead of tagImg
+      pdf.addImage(sharpTagData, "PNG", x, y, s, s, undefined, "FAST");
 
       // add tag coordinates
       tagCoordinates[pageIndex].push({
         id: tagId,
         family: tagFamily,
         windowSize: tagWindowSize,
-        center: [xShift, -yShift],
+        center: [xShift, yShift],
         corners: [
-          [xShift - s / 2, -yShift + s / 2],
-          [xShift + s / 2, -yShift + s / 2],
-          [xShift + s / 2, -yShift - s / 2],
-          [xShift - s / 2, -yShift - s / 2],
+          [xShift - s / 2, yShift + s / 2],
+          [xShift + s / 2, yShift + s / 2],
+          [xShift + s / 2, yShift - s / 2],
+          [xShift - s / 2, yShift - s / 2],
         ],
         unit: "mm",
       });

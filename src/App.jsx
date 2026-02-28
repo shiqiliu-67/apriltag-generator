@@ -169,8 +169,8 @@ const App = () => {
   };
 
   return (
-    <Container maxWidth="md" style={{ marginBottom: "100px", marginTop: "50px" }}>
-      <Typography variant="h4" align="center" gutterBottom>
+    <Container maxWidth="md" style={{ marginBottom: "100px", marginTop: "30px" }}>
+      <Typography variant="h2" align="center" gutterBottom sx={{ fontWeight: 'bold' }}>
         AprilTag Generator
       </Typography>
       <Grid container spacing={2} style={{ marginTop: 30 }}>
@@ -265,7 +265,7 @@ const App = () => {
               label="Page Preset"
               onChange={handleChange}
             >
-              <MenuItem value="letter">Letter (8.5" x 11")</MenuItem>
+              <MenuItem value="letter">US Letter (8.5" x 11")</MenuItem>
               <MenuItem value="a4">A4 (8.27" x 11.69")</MenuItem>
               <MenuItem value="a3">A3 (11.69" x 16.54")</MenuItem>
               <MenuItem value="custom">Custom</MenuItem>
@@ -465,6 +465,22 @@ const App = () => {
           }}
         ></iframe>
       )}
+
+      <Container maxWidth="sm" style={{ marginBottom: "100px", marginTop: "50px" }}>
+        <Typography variant="h4" align="center" gutterBottom>
+          Example Output
+        </Typography>
+        <Box
+          component="img"
+          src={`${import.meta.env.BASE_URL}imgs/example.svg`}
+          alt="Example Output"
+          sx={{
+            width: "100%",   // fill parent/container width
+            height: "auto",  // keep aspect ratio
+            display: "block" // removes inline img bottom gap
+          }}
+        />
+      </Container>
 
     </Container>
   );
